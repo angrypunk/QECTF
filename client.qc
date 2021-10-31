@@ -964,12 +964,15 @@ void() PlayerPreThink =
 		return;					// the think tics
 	}
 
+	if (self.view_ofs == '0 0 0')
+		return;		// intermission or finale
+
 //	if(!(self.cnt & PEF_SEEN_MESSAGE)) 
 //	{
 //		self.cnt = PEF_SEEN_MESSAGE;
 //		
-//		centerprint3(self,"Welcome to Quake Enhanced Team Deathmatch\nDownload at https://github.com/bravocharlietango/QE-TDM\n\nYou are on team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
-//    }
+//		centerprint(self,"Welcome to QECTF - Capture the flag\nAny bugs are probably related to the mod\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
+//	}
 
 	if(time >= self.state) {
 		self.state = time + 0.25;
