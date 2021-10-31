@@ -970,10 +970,15 @@ void() PlayerPreThink =
 //		
 //		centerprint3(self,"Welcome to Quake Enhanced Team Deathmatch\nDownload at https://github.com/bravocharlietango/QE-TDM\n\nYou are on team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
 //    }
-
-
 	if (self.view_ofs == '0 0 0')
 		return;		// intermission or finale
+
+//	if(!(self.cnt & PEF_SEEN_MESSAGE)) 
+//	{
+//		self.cnt = PEF_SEEN_MESSAGE;
+//		
+//		centerprint(self,"Welcome to QECTF - Capture the flag\nAny bugs are probably related to the mod\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
+//	}
 
 	if(time >= self.state) {
 		self.state = time + 0.25;
@@ -1023,6 +1028,8 @@ void() PlayerPreThink =
 		W_SetCurrentAmmo ();
 	}
 
+
+	
 
 	if(entmod.active) {
 		Entmod_PlayerPreThink();
@@ -1197,6 +1204,7 @@ void() PlayerPostThink =
 	
 	if (self.view_ofs == '0 0 0')
 		return;		// intermission or finale
+
 	if (self.deadflag)
 		return;
 		
@@ -1251,9 +1259,16 @@ void() ClientConnect =
 {
 	tdm_player_autoAssignTeam(self);
 
-	bprint (self.netname);
-	bprint (" entered the game");
-	
+	if(ctf_isBot(self)) {
+		bprint("Bot '");
+		bprint(self.netname);
+		bprint("' entered the game");
+	}
+	else {
+		bprint (self.netname);
+		bprint (" entered the game");
+	}
+
 	if(self.team == TEAM_BLUE)
 	bprint(" as team blue");
 	else if(self.team == TEAM_RED)

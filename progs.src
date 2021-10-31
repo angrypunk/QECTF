@@ -4,9 +4,16 @@ defs.qc
 subs.qc
 math.qc
 
+<<<<<<< HEAD
 tdm/defs.qc
 tdm/utils.qc
 tdm/tdm.qc
+=======
+ctf/defs.qc
+ctf/utils.qc
+ctf/bots.qc
+ctf/flags.qc
+>>>>>>> 485fbda (Added bot support)
 
 entmod/defs.qc
 
