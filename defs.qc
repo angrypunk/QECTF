@@ -401,7 +401,6 @@ float	movedist;
 float	gameover;		// set when a rule exits
 
 string	string_null;	// null string, nothing should be held here
-float	empty_float;
 
 entity	newmis;			// launch_spike sets this after spawning it
 
@@ -656,6 +655,14 @@ void(string s) changelevel = #70;
 void(string var, string val) cvar_set = #72;	// sets cvar.value
 
 void(entity client, string s) centerprint = #73;	// sprint, but in middle
+// 1998-08-08 Centerprint with multiple strings by Zhenga  start
+void(entity client, string s, string s) centerprint2 = #73;
+void(entity client, string s, string s, string s) centerprint3 = #73;
+void(entity client, string s, string s, string s, string s) centerprint4 = #73;
+void(entity client, string s, string s, string s, string s, string s) centerprint5 = #73;
+void(entity client, string s, string s, string s, string s, string s, string s) centerprint6 = #73;
+void(entity client, string s, string s, string s, string s, string s, string s, string s) centerprint7 = #73;
+// 1998-08-08 Centerprint with multiple strings by Zhenga  end
 
 void(vector pos, string samp, float vol, float atten) ambientsound = #74;
 
@@ -679,7 +686,7 @@ void draw_worldtext( string s, vector origin, float size, float lifetime, float 
 void draw_sphere( vector origin, float radius, float colormap, float lifetime, float depthtest ) = #88;
 void draw_cylinder( vector origin, float halfHeight, float radius, float colormap, float lifetime, float depthtest ) = #89;
 
-void (entity client, string s, ...) centerprint2 = #90; 
+//void (entity client, string s, ...) centerprint2 = #90; 
 void (string s,...) bprint2 = #91; 
 void (entity client, string s, ...) sprint2 = #92;
 
@@ -696,6 +703,7 @@ void(vector destangle, float tspeed, void() func) SUB_CalcAngleMove;
 void()  SUB_CalcMoveDone;
 void() SUB_CalcAngleMoveDone;
 void() SUB_Null;
+void(entity attacker, float damage) SUB_Null2;
 void() SUB_UseTargets;
 void() SUB_Remove;
 

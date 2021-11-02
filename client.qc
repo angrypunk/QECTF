@@ -2,10 +2,11 @@
 // prototypes
 void () W_WeaponFrame;
 void() W_SetCurrentAmmo;
-void() player_pain;
+void(entity attacker, float damage) player_pain;
 void() player_stand1;
 void (vector org) spawn_tfog;
 void (vector org, entity death_owner) spawn_tdeath;
+
 
 float	modelindex_eyes, modelindex_player;
 
@@ -21,7 +22,7 @@ float	intermission_running;
 float	intermission_exittime;
 
 /*QUAKED info_intermission (1 0.5 0.5) (-16 -16 -16) (16 16 16)
-This is the camera point for the intermission.
+This is the camera point for the intermission
 Use mangle instead of angle, so you can set pitch or roll as well as yaw.  'pitch roll yaw'
 */
 void() info_intermission =
@@ -131,6 +132,8 @@ entity() FindIntermission =
 		return spot;
 	
 	objerror ("FindIntermission: no spot");
+
+	return spot;
 };
 
 
@@ -282,14 +285,16 @@ void() execute_changelevel =
 		setorigin (other, pos.origin);
 		other = find (other, classname, "player");
 	}	
-
-	WriteByte (MSG_ALL, SVC_INTERMISSION);
+	
+	// supress intermission screen, display our game over screen instead
+	// this is kinda kludgy but seems to work
+	tdm_game_displayGameOver();
+	if (time > 5 + time) { WriteByte (MSG_ALL, SVC_INTERMISSION); }
 };
 
 
 void() changelevel_touch =
 {
-	local entity	pos;
 
 	if (other.classname != "player")
 		return;
@@ -333,7 +338,7 @@ void() trigger_changelevel =
 		return remove(self);
 
 	if (!self.map)
-		objerror ("chagnelevel trigger doesn't have map");
+		objerror ("changelevel trigger doesn't have map");
 	
 	InitTrigger ();
 	self.touch = changelevel_touch;
@@ -370,6 +375,10 @@ void() respawn =
 		SetNewParms ();
 		// respawn		
 		PutClientInServer ();
+
+		// display tdm score
+		tdm_game_displayScore();
+
 	}
 	else
 	{	// restart the entire server
@@ -392,9 +401,6 @@ void() ClientKill =
 	set_suicide_frame ();
 	self.modelindex = modelindex_player;
 	self.frags = self.frags - 2;	// extra penalty
-
-	if(self.items & (IT_KEY1 | IT_KEY2))
-		ctf_DropFlag();
 
 	respawn ();
 };
@@ -627,6 +633,7 @@ only called if a time or frag limit has expired
 */
 void() NextLevel =
 {
+
 	local entity o;
 
 	if (mapname == "start")
@@ -692,14 +699,15 @@ Exit deathmatch games upon conditions
 */
 void() CheckRules =
 {
+
 	local	float		timelimit;
-	local	float		fraglimit;
 	
 	if (gameover)	// someone else quit the game already
 		return;
 		
 	timelimit = cvar("timelimit") * 60;
 	fraglimit = cvar("fraglimit");
+
 	
 	if (timelimit && time >= timelimit)
 	{
@@ -707,18 +715,46 @@ void() CheckRules =
 		return;
 	}
 	
-	if (fraglimit && self.frags >= fraglimit)
+//	if (fraglimit && self.frags >= fraglimit)
+//	{
+//		NextLevel ();
+//		return;
+//	}
+
+	
+	tdm_game_checkLeaderChange();
+	tdm_player_checkKillStreak();
+
+	local float frags_left = 0;
+	local float old_frags_left = 0;
+
+	local float player_highScore = tdm_player_highScore();
+
+	frags_left = tdm_game_getFragsLeft();
+	
+	if (frags_left != old_frags_left) 
 	{
+		old_frags_left = frags_left;
+		cvar_set("fraglimit",ftos(player_highScore + frags_left));
+	}
+	
+	if (frags_left < 1)
+	{
+
 		NextLevel ();
 		return;
-	}	
+
+	}
 };
 
 //============================================================================
 
 void() PlayerDeathThink =
 {
-	local entity	old_self;
+
+	// reset previous frags and seen message count (for killing sprees)
+	self.prev_frags = self.frags;
+
 	local float		forward;
 
 	if ((self.flags & FL_ONGROUND))
@@ -748,12 +784,12 @@ void() PlayerDeathThink =
 	self.button1 = 0;
 	self.button2 = 0;
 	respawn();
+	
 };
 
 
 void() PlayerJump =
 {
-	local vector start, end;
 	
 	if (self.flags & FL_WATERJUMP)
 		return;
@@ -925,22 +961,18 @@ Called every frame before physics are run
 */
 void() PlayerPreThink =
 {
-	local	float	mspeed, aspeed;
-	local	float	r;
-
-
 	if (intermission_running)
 	{
 		IntermissionThink ();	// otherwise a button could be missed between
 		return;					// the think tics
 	}
 
-	if(!(self.cnt & PEF_SEEN_MESSAGE)) 
-	{
-		self.cnt = PEF_SEEN_MESSAGE;
-		
-		centerprint(self,"Welcome to QECTF - Capture the flag\nAny bugs are probably related to the mod\n\nYou are team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
-	}
+//	if(!(self.cnt & PEF_SEEN_MESSAGE)) 
+//	{
+//		self.cnt = PEF_SEEN_MESSAGE;
+//		
+//		centerprint3(self,"Welcome to Quake Enhanced Team Deathmatch\nDownload at https://github.com/bravocharlietango/QE-TDM\n\nYou are on team ",self.team == TEAM_BLUE ? "BLUE" : "RED","\nHave fun!");
+//    }
 
 
 	if (self.view_ofs == '0 0 0')
@@ -950,7 +982,7 @@ void() PlayerPreThink =
 		self.state = time + 0.25;
 
 		if(self.team != TEAM_BLUE && self.team != TEAM_RED) {
-			ctf_player_autoAssignTeam(self);
+			tdm_player_autoAssignTeam(self);
 		}
 
 		// Enforce team color
@@ -962,6 +994,7 @@ void() PlayerPreThink =
 	makevectors (self.v_angle);		// is this still used
 
 	CheckRules ();
+	tdm_player_checkChangeTeam(self);
 	WaterMove ();
 
 	if (self.waterlevel == 2)
@@ -1164,11 +1197,7 @@ Called every frame after physics are run
 */
 void() PlayerPostThink =
 {
-	local	float	mspeed, aspeed;
-	local	float	r;
-
 	
-
 	if (self.view_ofs == '0 0 0')
 		return;		// intermission or finale
 	if (self.deadflag)
@@ -1199,6 +1228,18 @@ void() PlayerPostThink =
 		self.jump_flag = self.velocity_z;
 
 	CheckPowerups ();
+
+// MOTD
+
+	if ((self.motdtext) && (self.motdtime < time))
+	{
+		ChangeMOTD(self);
+	}
+
+	if (self.motdtime >= time)
+	{
+		DisplayMOTD(self);
+	}
 };
 
 
@@ -1211,7 +1252,7 @@ called when a player connects to a server
 */
 void() ClientConnect =
 {
-	ctf_player_autoAssignTeam(self);
+	tdm_player_autoAssignTeam(self);
 
 	bprint (self.netname);
 	bprint (" entered the game");
@@ -1226,6 +1267,11 @@ void() ClientConnect =
 // a client connecting during an intermission can cause problems
 	if (intermission_running)
 		ExitIntermission ();
+
+// MOTD
+	InitMOTD(self);				// start with first MOTD
+	self.motdtime = time + 1.5;		// display some seconds so player can read
+
 		
 };
 
@@ -1245,9 +1291,6 @@ void() ClientDisconnect =
 	// since they aren't *really* leaving
 
 
-	if(self.items & (IT_KEY1 | IT_KEY2))
-		ctf_DropFlag();
-
 	// let everyone else know
 	bprint (self.netname);
 	bprint (" left the game with ");
@@ -1266,6 +1309,9 @@ called when a player dies
 */
 void(entity targ, entity attacker) ClientObituary =
 {
+	// next line is for killing sprees
+	if ((targ.is_onSpree == 1)) {targ.is_onSpree = 0; tmd_player_endsKillingSpree(attacker, targ); }
+
 	local	float rnum;
 	local	string deathstring, deathstring2;
 	rnum = random();
@@ -1278,8 +1324,11 @@ void(entity targ, entity attacker) ClientObituary =
 			bprint (" was telefragged by ");
 			bprint (attacker.owner.netname);
 			bprint ("\n");
-
-			attacker.owner.frags = attacker.owner.frags + 1;
+			
+			// check if player is on same team before awarding kill for telefrag
+			if (attacker.owner.team != targ.team){
+				attacker.owner.frags = attacker.owner.frags + 1;
+			}
 			return;
 		}
 
@@ -1330,6 +1379,7 @@ void(entity targ, entity attacker) ClientObituary =
 			else
 			{
 				attacker.frags = attacker.frags + 1;
+				if ((last_spree = self.netname)) { last_spree = "";}
 
 				rnum = attacker.weapon;
 				if (rnum == IT_AXE)
@@ -1508,3 +1558,4 @@ void(entity targ, entity attacker) ClientObituary =
 		}
 	}
 };
+
