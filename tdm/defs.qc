@@ -22,3 +22,4 @@ string last_spree;
 
 float fraglimit;
 float tdm_fraglimit;
+.float is_onSpree;
