@@ -7,6 +7,7 @@ math.qc
 tdm/defs.qc
 tdm/utils.qc
 tdm/tdm.qc
+
 ctf/defs.qc
 ctf/utils.qc
 ctf/bots.qc
@@ -56,6 +57,6 @@ oldone.qc		// registered
 
 entmod/entmod.qc
 entmod/commands.qc
-motd.qc			// 1997-12-24 Message Of The Day (MOTD) by Maddes
+motd.qc
 
 //ctf/compatibility.qc
