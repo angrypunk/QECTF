@@ -115,7 +115,7 @@ float() Entmod_PlayerAttack =
         local entity closestEnt = world;
         local float closestDist = 99999;
 
-        while(foundEnt = nextent(foundEnt))
+        while((foundEnt = nextent(foundEnt)))
         {
             local float dist = vlen(trace_endpos - foundEnt.origin);
             if(!closestEnt || dist < closestDist) {
