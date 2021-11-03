@@ -9,11 +9,6 @@ void() item_flag_team1 =
 void() item_flag_team2 =
 {
     ctf_compatibility = 1;
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> dd64a85 (Improved compatibility with 3wctf and added compatibility with Rogue's ctf1 map)
     self.team = TEAM_BLUE;
     ctf_flag();
 }
@@ -30,7 +25,6 @@ void() info_player_team2 =
 	self.team = TEAM_BLUE;
 	self.impulse = 1;
 	info_player_deathmatch();
-<<<<<<< HEAD
 }
 
 
@@ -57,6 +51,4 @@ void() item_plasma =
 {
     self.classname = "item_cells";
     item_cells();
-=======
->>>>>>> dd64a85 (Improved compatibility with 3wctf and added compatibility with Rogue's ctf1 map)
 }

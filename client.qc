@@ -1379,7 +1379,7 @@ void(entity targ, entity attacker) ClientObituary =
 			else
 			{
 				attacker.frags = attacker.frags + 1;
-				if ((last_spree = self.netname)) { last_spree = "";}
+				if ((last_spree = self.netname)) {last_spree = "";}
 
 				rnum = attacker.weapon;
 				if (rnum == IT_AXE)
