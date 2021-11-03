@@ -734,7 +734,7 @@ void() CheckRules =
 		cvar_set("fraglimit",ftos(player_highScore + frags_left));
 	}
 	
-	if (frags_left < 0)
+	if (frags_left == 0)
 	{
 
 		NextLevel ();
