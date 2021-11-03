@@ -23,4 +23,5 @@ string last_spree;
 float fraglimit;
 float tdm_fraglimit;
 .float is_onSpree;
+float frags_left;
 float old_frags_left;
