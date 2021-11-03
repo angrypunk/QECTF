@@ -6,7 +6,6 @@ float	intermission_exittime;
 
 void StartItem();
 
-
 //const string SOUND_WIN = "boss2/pop2.wav";
 //const string SOUND_LOSE = "boss1/pain.wav";
 
@@ -25,8 +24,7 @@ float(float team) tdm_game_getTeamScore =
 
 void() tdm_game_displayGameOver = 
 {
-
-      local entity p = world;
+    local entity p = world;
 	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
 	local string otherTeamColor = otherTeam == TEAM_BLUE ? "BLUE" : "RED";
 	local string myTeamColor = self.team == TEAM_BLUE ? "BLUE" : "RED";
@@ -37,35 +35,32 @@ void() tdm_game_displayGameOver =
 	team_score = tdm_game_getTeamScore(self.team);
 	enemy_score = tdm_game_getTeamScore(otherTeam);
 
-	if (team_score > enemy_score){
-
+	if (team_score > enemy_score)
+	{
 	      while((p = findPlayer(p)))
 	      {
-	          centerprint4(p,myTeamColor," team won the game with ", ftos(team_score)," frags.\n");
+	        centerprint4(p,myTeamColor," team won the game with ", ftos(team_score)," frags.\n");
 	      }
 	}
-
-	if (team_score < enemy_score){
-
+	else if (team_score < enemy_score)
+	{
 	      while((p = findPlayer(p)))
 	      {
-		
-	          centerprint4(p,otherTeamColor," team won the game with ", ftos(enemy_score)," frags.\n");
+	        centerprint4(p,otherTeamColor," team won the game with ", ftos(enemy_score)," frags.\n");
 	      }
-
 	}
-	if (team_score == enemy_score){
-
+	else if (team_score == enemy_score)
+	{
 	      while((p = findPlayer(p)))
 	      {
-	          centerprint(p,"BLUE and RED teams tied the game!\n");
+	        centerprint(p,"BLUE and RED teams tied the game!\n");
 	      }
 	}	
 }
 
 void(entity player) tdm_player_autoAssignTeam =
 {
-      local float countBlue = 0;
+    local float countBlue = 0;
 	local float countRed = 0;
 	local entity p = world;
 	while((p = findPlayer(p)))
@@ -88,7 +83,7 @@ void(entity player) tdm_player_changeTeam =
 
 float() tdm_game_checkTeamBalance =
 {
-      local float countBlue = 0;
+    local float countBlue = 0;
 	local float countRed = 0;
 	local entity p = world;
 	while((p = findPlayer(p)))
@@ -124,7 +119,7 @@ void(entity player) tdm_player_checkChangeTeam =
 
 			while((p = findPlayerInTeam(self.team,p)))
       		{
-          			centerprint4(p,player.netname," has switched to the ",newColor," team\n");
+          		centerprint4(p,player.netname," has switched to the ",newColor," team\n");
       		}
     
       		while((p = findPlayerInTeam(otherTeam,p) && p != other))
@@ -159,7 +154,6 @@ void() tdm_game_autoBalanceTeams =
 	if (countBlue +2 < countRed) {
 
 	}
-	
 }
 
 
@@ -170,7 +164,7 @@ void() tdm_game_displayLeaderChange =
 
       while((p = findPlayerInTeam(self.team,p)))
       {
-          centerprint(p,"Your team has taken the lead\n");
+        centerprint(p,"Your team has taken the lead\n");
       }
     
       while((p = findPlayerInTeam(otherTeam,p) && p != other))
@@ -195,13 +189,13 @@ void() tdm_game_checkLeaderChange =
 
 void() tdm_game_displayScore =
 {
-      local entity p = world;
-      local float team_score = 0;
+    local entity p = world;
+    local float team_score = 0;
 	local float enemy_score = 0;
 	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
 
 	team_score = tdm_game_getTeamScore(self.team);
-      enemy_score = tdm_game_getTeamScore(otherTeam);
+    enemy_score = tdm_game_getTeamScore(otherTeam);
 		
 	local float is_leading = 0;
 	if (team_score >= enemy_score) { is_leading = 1; }
@@ -256,8 +250,8 @@ void(entity attacker, entity targ) tmd_player_endsKillingSpree =
 
 float() tdm_game_getFragsLeft =
 {
-      local entity p = world;
-      local float team_score = 0;
+    local entity p = world;
+    local float team_score = 0;
 	local float enemy_score = 0;
 	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
 
@@ -274,8 +268,7 @@ float() tdm_game_getFragsLeft =
 
 float() tdm_player_highScoreOnLeadingTeam =
 {
-
-      local entity p = world;
+    local entity p = world;
 	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
 
 	local float high_score = 0;
@@ -300,9 +293,7 @@ float() tdm_player_highScoreOnLeadingTeam =
 
 float() tdm_player_highScore =
 {
-
-      local entity p = world;
-
+    local entity p = world;
 	local float high_score = 0;
 
 	while((p = findPlayer(p))) {
