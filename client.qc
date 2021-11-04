@@ -286,10 +286,8 @@ void() execute_changelevel =
 		other = find (other, classname, "player");
 	}	
 	
-	// supress intermission screen for a bit, display our game over screen instead
-	// this is kinda kludgy but seems to work
 	tdm_game_displayGameOver();
-	if (time > 10 + time) { WriteByte (MSG_ALL, SVC_INTERMISSION); }
+	//if (time > 10 + time) { WriteByte (MSG_ALL, SVC_INTERMISSION); }
 };
 
 
@@ -1311,6 +1309,8 @@ void(entity targ, entity attacker) ClientObituary =
 {
 	// next line is for killing sprees
 	if ((targ.is_onSpree == 1)) {targ.is_onSpree = 0; tdm_player_endsKillingSpree(attacker, targ); }
+	if ((last_spree = attacker.netname)) {last_spree = "";}
+	last_spree = targ.netname; // this is here to work around a bug i dont quite understand yet
 
 	local	float rnum;
 	local	string deathstring, deathstring2;
@@ -1379,8 +1379,6 @@ void(entity targ, entity attacker) ClientObituary =
 			else
 			{
 				attacker.frags = attacker.frags + 1;
-				if ((last_spree = attacker.netname)) {last_spree = "";}
-				last_spree = targ.netname; // this is here to fix a bug i dont understand yet
 
 				rnum = attacker.weapon;
 				if (rnum == IT_AXE)
