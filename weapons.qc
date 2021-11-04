@@ -49,6 +49,8 @@ W_FireAxe
 */
 void() W_FireAxe =
 {
+	CheckGrapHook ();
+	
 	local	vector	source;
 	local	vector	org;
 

@@ -8,6 +8,7 @@ compiling math.qc
 compiling tdm/defs.qc
 compiling tdm/utils.qc
 compiling tdm/tdm.qc
+compiling tdm/hook.qc
 compiling entmod/defs.qc
 compiling fight.qc
 compiling ai.qc

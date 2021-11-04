@@ -27,3 +27,5 @@ float fraglimit;
 float tdm_fraglimit;
 float frags_left;
 float old_frags_left;
+
+.float hook;
