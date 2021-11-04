@@ -6,8 +6,10 @@ float TEAMS_BALANCED = 1;
 float COLOR_BLUE = 13;
 float COLOR_RED = 4;
 
+float FFL_NONE = 0;
+float FFL_HIDDEN = 1 << 0;
+float FFL_BOT_HIDDEN = 1 << 1;
 float PEF_SEEN_MESSAGE = 1;
-
 
 .float motdtime;
 .float motdtext;

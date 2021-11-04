@@ -25,41 +25,48 @@ float(float team) tdm_game_getTeamScore =
 void() tdm_game_displayGameOver = 
 {
     local entity p = world;
-	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
-	local string otherTeamColor = otherTeam == TEAM_BLUE ? "BLUE" : "RED";
-	local string myTeamColor = self.team == TEAM_BLUE ? "BLUE" : "RED";
+	//local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
+	//local string otherTeamColor = otherTeam == TEAM_BLUE ? "RED" : "BLUE";
+	//local string myTeamColor = self.team == TEAM_BLUE ? "BLUE" : "RED";
 	
-	local float team_score;	
-	local float enemy_score;	
+	local float blue_score;	
+	local float red_score;	
 
-	team_score = tdm_game_getTeamScore(self.team);
-	enemy_score = tdm_game_getTeamScore(otherTeam);
+	blue_score = tdm_game_getTeamScore(TEAM_BLUE);
+	red_score = tdm_game_getTeamScore(TEAM_RED);
 
-	if (team_score > enemy_score)
+	if (blue_score > red_score)
 	{
 	      while((p = findPlayer(p)))
 	      {
-	        centerprint4(p,myTeamColor," team won the game with ", ftos(team_score)," frags.\n");
+	        centerprint3(p,"BLUE team won the match with ", ftos(blue_score)," frags.\n");
 	      }
 	}
-	else if (team_score < enemy_score)
+	else if (blue_score < red_score)
 	{
 	      while((p = findPlayer(p)))
 	      {
-	        centerprint4(p,otherTeamColor," team won the game with ", ftos(enemy_score)," frags.\n");
+	        centerprint3(p,"RED team won the match with ", ftos(red_score)," frags.\n");  
 	      }
 	}
-	else if (team_score == enemy_score)
+	else if (blue_score == red_score)
 	{
 	      while((p = findPlayer(p)))
 	      {
-	        centerprint(p,"BLUE and RED teams tied the game!\n");
+	        centerprint3(p,"BLUE and RED teams tied the match with ", ftos(blue_score), " frags.\n");
 	      }
 	}	
 }
 
 void(entity player) tdm_player_autoAssignTeam =
 {
+	// Handle bots
+	if(ctf_isBot(player))
+	{
+		player.team = ctf_getBotTeam(player.netname);
+		return;
+	}
+
     local float countBlue = 0;
 	local float countRed = 0;
 	local entity p = world;
@@ -102,7 +109,6 @@ float() tdm_game_checkTeamBalance =
 	return FALSE;	
 }
 
-
 void(entity player) tdm_player_checkChangeTeam =
 {
 	if (self.impulse == 152) 
@@ -131,7 +137,6 @@ void(entity player) tdm_player_checkChangeTeam =
 	}
 }
 
-
 void() tdm_game_autoBalanceTeams =
 {
       local float countBlue = 0;
@@ -156,7 +161,6 @@ void() tdm_game_autoBalanceTeams =
 	}
 }
 
-
 void() tdm_game_displayLeaderChange =
 {
       local entity p = world;
@@ -173,7 +177,6 @@ void() tdm_game_displayLeaderChange =
       }
 }
 
-
 void() tdm_game_checkLeaderChange =
 {
 	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
@@ -185,7 +188,6 @@ void() tdm_game_checkLeaderChange =
 
 	last_leader = current_leader;
 }
-
 
 void() tdm_game_displayScore =
 {
@@ -208,7 +210,6 @@ void() tdm_game_displayScore =
 		centerprint5(self,"Your team is behind with ",ftos(team_score)," frags\nYou need ", ftos(tdm_fraglimit - team_score)," more frags to win");
 	}
 }
-
 
 void() tdm_player_checkKillStreak =
 {
@@ -246,7 +247,6 @@ void(entity attacker, entity targ) tmd_player_endsKillingSpree =
         centerprint4(self,attacker.netname," ended ", targ.netname,"'s killing spree.\n"); 
     }
 }
-
 
 float() tdm_game_getFragsLeft =
 {
@@ -305,3 +305,4 @@ float() tdm_player_highScore =
 
 	return high_score;
 }
+

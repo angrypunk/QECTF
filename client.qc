@@ -1247,15 +1247,15 @@ void() ClientConnect =
 {
 	tdm_player_autoAssignTeam(self);
 
-//	if(ctf_isBot(self)) {
-//		bprint("Bot '");
-//		bprint(self.netname);
-//		bprint("' entered the game");
-//	}
-//	else {
+	if(ctf_isBot(self)) {
+		bprint("Bot '");
+		bprint(self.netname);
+		bprint("' entered the game");
+	}
+	else {
 		bprint (self.netname);
 		bprint (" entered the game");
-//	}
+	}
 
 	if(self.team == TEAM_BLUE)
 	bprint(" as team blue");

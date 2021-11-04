@@ -6,6 +6,7 @@ compiling defs.qc
 compiling subs.qc
 compiling math.qc
 compiling tdm/defs.qc
+compiling ctf/bots.qc
 compiling tdm/utils.qc
 compiling tdm/tdm.qc
 compiling entmod/defs.qc
