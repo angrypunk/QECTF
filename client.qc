@@ -1247,7 +1247,7 @@ void() ClientConnect =
 {
 	tdm_player_autoAssignTeam(self);
 
-	if(ctf_isBot(self)) {
+	if(tdm_isBot(self)) {
 		bprint("Bot '");
 		bprint(self.netname);
 		bprint("' entered the game");

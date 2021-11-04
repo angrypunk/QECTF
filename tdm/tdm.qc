@@ -9,6 +9,31 @@ void StartItem();
 //const string SOUND_WIN = "boss2/pop2.wav";
 //const string SOUND_LOSE = "boss1/pain.wav";
 
+float(string name) tdm_getBotTeam =
+{
+    if(name == "[BOT] Azizam"
+    || name == "[BOT] Bitterman"
+    || name == "[BOT] Crapshoot"
+    || name == "[BOT] Mr.Elusive"
+    )
+        return TEAM_RED;
+    else if(name == "[BOT] Barney"
+    || name == "[BOT] ClockParadox"
+    || name == "[BOT] Demona"
+    || name == "[BOT] FloridaMan")
+        return TEAM_BLUE;
+
+    return TEAM_ALL;
+}
+
+float(entity ent) tdm_isBot =
+{
+    if(ent.flags & FL_ISBOT)
+        return TRUE;
+
+    return tdm_getBotTeam(ent.netname) != TEAM_ALL;
+}
+
 float(float team) tdm_game_getTeamScore =
 {
 	local entity p = world;
@@ -25,10 +50,7 @@ float(float team) tdm_game_getTeamScore =
 void() tdm_game_displayGameOver = 
 {
     local entity p = world;
-	//local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
-	//local string otherTeamColor = otherTeam == TEAM_BLUE ? "RED" : "BLUE";
-	//local string myTeamColor = self.team == TEAM_BLUE ? "BLUE" : "RED";
-	
+
 	local float blue_score;	
 	local float red_score;	
 
@@ -61,9 +83,9 @@ void() tdm_game_displayGameOver =
 void(entity player) tdm_player_autoAssignTeam =
 {
 	// Handle bots
-	if(ctf_isBot(player))
+	if(tdm_isBot(player))
 	{
-		player.team = ctf_getBotTeam(player.netname);
+		player.team = tdm_getBotTeam(player.netname);
 		return;
 	}
 
