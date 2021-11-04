@@ -233,40 +233,37 @@ void() tdm_game_displayScore =
 	}
 }
 
-void() tdm_player_checkKillStreak =
+void(entity player) tdm_player_checkKillStreak =
 {
     local entity p = world;
-    while((p = findPlayer(p))) 
-    {
-        local float kill_streak;
-        kill_streak = p.frags - p.prev_frags;
+	local float kill_streak;
+	kill_streak = player.frags - player.prev_frags;
 
-        if (kill_streak == 5 && p.netname != last_spree){ 
-            last_spree = p.netname;
-		p.is_onSpree = 1;
-            centerprint2(self,p.netname," is on a killing spree!\n"); 
-        }	
-        if (kill_streak == 10 && p.netname != last_spree) {	
-            last_spree = p.netname;
-            centerprint2(self,p.netname," is on a killing frenzy!\n"); 
-	  }	
-        if (kill_streak == 15 && p.netname != last_spree) {
-	  last_spree = p.netname;
-	  centerprint2(self,p.netname," is on a killing rampage!\n");
-	  }
-        if (kill_streak == 20 && p.netname != last_spree) {
-	  last_spree = p.netname;
-	  centerprint2(self,p.netname," is unstoppable!\n");
-	  }
-    }
+    if (kill_streak == 5 && player.netname != last_spree){ 
+        last_spree = player.netname;
+		player.is_onSpree = 1;
+		while((p = findPlayer(p))) { centerprint2(p,player.netname," is on a killing spree!\n"); }  
+    }	
+    else if (kill_streak == 10 && player.netname != last_spree) {	
+        last_spree = player.netname;
+        while((p = findPlayer(p))) { centerprint2(p,player.netname," is on a killing frenzy!\n"); } 
+	}	
+    else if (kill_streak == 15 && player.netname != last_spree) {
+	  	last_spree = player.netname;
+	  	while((p = findPlayer(p))) { centerprint2(p,player.netname," is on a killing rampage!\n"); }
+	}
+    else if (kill_streak == 20 && player.netname != last_spree) {
+	  	last_spree = player.netname;
+	  	while((p = findPlayer(p))) { centerprint2(p,player.netname," is unstoppable!\n"); }
+	}
 }
 
-void(entity attacker, entity targ) tmd_player_endsKillingSpree =
+void(entity attacker, entity targ) tdm_player_endsKillingSpree =
 {
     local entity p = world;
     while((p = findPlayer(p))) 
     {
-        centerprint4(self,attacker.netname," ended ", targ.netname,"'s killing spree.\n"); 
+        centerprint4(p,attacker.netname," ended ", targ.netname,"'s killing spree.\n"); 
     }
 }
 
