@@ -105,7 +105,7 @@ entity (entity head, entity tail, float num) CreateChain =
 		link.angles_x = 31 * linknum;
 		link.avelocity = '310 410 510';
 		setmodel (link, "progs/spike.mdl");
-		setsize (link, '0.25 0.25 0.25', '0.25 0.25 0.25');
+		setsize (link, '0 0 0', '0 0 0');
 		setorigin (link, head.origin + ((tail.origin + '0 0 16') - head.origin) * link.weapon);
 		link.nextthink = time + 0.01;
 		link.think = LinkPos;
@@ -137,7 +137,7 @@ void () HookPull =
 
 	if (self.enemy.solid == SOLID_SLIDEBOX)
 	{
-		//sound (self, CHAN_WEAPON, "blob/land1.wav", 1, ATTN_NORM);
+		sound (self, CHAN_WEAPON, "blob/land1.wav", 1, ATTN_NORM);
 		spray_x = 100 * crandom();
  		spray_y = 100 * crandom();
 		spray_z = 100 * crandom() + 50;
@@ -155,6 +155,7 @@ void () HookPull =
 		vel = normalize(vel) * 700;  
 	self.owner.velocity = vel;
 	self.nextthink = time + 0.1;
+
 };
 
 
@@ -174,13 +175,13 @@ void() ChainTouch =
 
  	if (other.solid == SOLID_SLIDEBOX)
 	{
-		//sound (self, CHAN_WEAPON, "shambler/smack.wav", 1, ATTN_NORM);	
+		sound (self, CHAN_WEAPON, "shambler/smack.wav", 1, ATTN_NORM);	
 		SpawnBlood (self.origin, self.velocity, 10);
 		setorigin (self, other.origin + other.mins + other.size * 0.5);
 	}
 	else
 	{
-		//sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
+		sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
 		self.avelocity = '0 0 0';
 	}
 
@@ -211,7 +212,7 @@ void(entity myself) InitiateHook =
 	newhook.velocity = v_forward*1000;
 	newhook.angles = vectoangles(newhook.velocity);
 	newhook.avelocity = '0 0 600';
-	//sound (myself, CHAN_WEAPON, "weapons/ax1.wav", 1, ATTN_NORM);
+	sound (myself, CHAN_WEAPON, "weapons/ax1.wav", 1, ATTN_NORM);
 	
 	newhook.touch = ChainTouch;
 	newhook.nextthink = time + 0.7;     // reach length of grappling hook
