@@ -339,7 +339,7 @@ void() tdm_game_displayGameOver =
 	{
 	      while((p = findPlayer(p)))
 	      {
-	        centerprint7(p,"RED team won the match with ", ftos(red_score)," frags.\n\nBLUE Team MVP: ", blue_mvp.netname , "\n\nRED Team MVP: ," , red_mvp.netname , "\n");  
+	        centerprint7(p,"RED team won the match with ", ftos(red_score)," frags.\n\nRED Team MVP: ", red_mvp.netname , "\n\nBLUE Team MVP: ," , blue_mvp.netname , "\n");  
 	      }
 	}
 
