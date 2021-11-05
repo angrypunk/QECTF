@@ -9,10 +9,6 @@ void StartItem();
 //const string SOUND_WIN = "boss2/pop2.wav";
 //const string SOUND_LOSE = "boss1/pain.wav";
 
-void(entity player) tdm_player_storeColors =
-{
-    old_pants_color = player.colo
-}
 
 float(string name) tdm_getBotTeam =
 {
