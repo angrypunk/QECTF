@@ -50,39 +50,6 @@ float(float team) tdm_game_getTeamScore =
 //	return team_score;
 }
 
-void() tdm_game_displayGameOver = 
-{
-    local entity p = world;
-
-	local float blue_score;	
-	local float red_score;	
-
-	blue_score = tdm_game_getTeamScore(TEAM_BLUE);
-	red_score = tdm_game_getTeamScore(TEAM_RED);
-
-	if (blue_score > red_score)
-	{
-	      while((p = findPlayer(p)))
-	      {
-	        centerprint3(p,"BLUE team won the match with ", ftos(blue_score)," frags.\n");
-	      }
-	}
-	else if (blue_score < red_score)
-	{
-	      while((p = findPlayer(p)))
-	      {
-	        centerprint3(p,"RED team won the match with ", ftos(red_score)," frags.\n");  
-	      }
-	}
-	else if (blue_score == red_score)
-	{
-	      while((p = findPlayer(p)))
-	      {
-	        centerprint3(p,"BLUE and RED teams tied the match with ", ftos(blue_score), " frags.\n");
-	      }
-	}	
-}
-
 void(entity player) tdm_player_autoAssignTeam =
 {
 	// Handle bots
@@ -294,29 +261,20 @@ float() tdm_game_getFragsLeft =
 	else {return (tdm_fraglimit - enemy_score);}
 }
 
-float() tdm_player_highScoreOnLeadingTeam =
+entity(float team) tdm_player_highestScoreOnTeam =
 {
     local entity p = world;
-	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
+	local entity player;
+	local float high_score;
 
-	local float high_score = 0;
-	local float leading_team;
-	local float team_score;
-	local float enemy_score;
-
-	team_score = tdm_game_getTeamScore(self.team);
-	enemy_score = tdm_game_getTeamScore(otherTeam);
-
-	leading_team = team_score > enemy_score ? self.team : other.team;
-
-	while((p = findPlayerInTeam(leading_team,p))) {
+	while((p = findPlayerInTeam(team,p))) {
       	if (p.frags > high_score)
             {
-              	high_score = p.frags;
+              	player = p;
           	}
       }
 
-	return high_score;
+	return player;
 }
 
 float() tdm_player_highScore =
@@ -362,4 +320,38 @@ void(float team) tdm_game_decTeamScore =
 {
 	if ((team == TEAM_RED)) { score_red = score_red - 1 ;}
 	else if ((team == TEAM_BLUE)) { score_blue = score_blue - 1 ;}
+}
+
+void() tdm_game_displayGameOver = 
+{
+    local entity p = world;
+
+	local float blue_score;	
+	local float red_score;	
+
+	blue_score = tdm_game_getTeamScore(TEAM_BLUE);
+	red_score = tdm_game_getTeamScore(TEAM_RED);
+
+	local entity blue_mvp = tdm_player_highestScoreOnTeam(TEAM_BLUE);
+	local entity red_mvp = tdm_player_highestScoreOnTeam(TEAM_RED);
+
+	if (blue_score > red_score)
+	{
+	      while((p = findPlayer(p)))
+	      {
+	        centerprint7(p,"BLUE team won the match with ", ftos(blue_score)," frags.\n\nBLUE Team MVP: ", blue_mvp.netname , "\n\nRED Team MVP: ," , red_mvp.netname , "\n");
+	      }
+	
+	      while((p = findPlayer(p)))
+	      {
+	        centerprint7(p,"RED team won the match with ", ftos(red_score)," frags.\n\nBLUE Team MVP: ", blue_mvp.netname , "\n\nRED Team MVP: ," , red_mvp.netname , "\n");  
+	      }
+	}
+	else if (blue_score == red_score)
+	{
+	      while((p = findPlayer(p)))
+	      {
+	        centerprint7(p,"BLUE and RED teams tied the match with ", ftos(blue_score), " frags.\n\nBLUE Team MVP: ", blue_mvp.netname , "\n\nRED Team MVP: ," , red_mvp.netname , "\n");
+	      }
+	}	
 }
