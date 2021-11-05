@@ -326,8 +326,8 @@ void() tdm_game_displayGameOver =
 {
     local entity p = world;
 
-	local float blue_score;	
-	local float red_score;	
+	local float blue_score = tdm_game_getTeamScore(TEAM_BLUE);	
+	local float red_score = tdm_game_getTeamScore(TEAM_RED);
 
 	blue_score = tdm_game_getTeamScore(TEAM_BLUE);
 	red_score = tdm_game_getTeamScore(TEAM_RED);
@@ -341,12 +341,16 @@ void() tdm_game_displayGameOver =
 	      {
 	        centerprint7(p,"BLUE team won the match with ", ftos(blue_score)," frags.\n\nBLUE Team MVP: ", blue_mvp.netname , "\n\nRED Team MVP: ," , red_mvp.netname , "\n");
 	      }
-	
+	}
+
+	else if (blue_score < red_score)
+	{
 	      while((p = findPlayer(p)))
 	      {
 	        centerprint7(p,"RED team won the match with ", ftos(red_score)," frags.\n\nBLUE Team MVP: ", blue_mvp.netname , "\n\nRED Team MVP: ," , red_mvp.netname , "\n");  
 	      }
 	}
+
 	else if (blue_score == red_score)
 	{
 	      while((p = findPlayer(p)))
