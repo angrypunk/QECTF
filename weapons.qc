@@ -1264,7 +1264,7 @@ void() ImpulseCommands =
 		QuadCheat ();
 		
 	if(self.impulse==15)
-		ID_toggle();
+		player_id_toggle();
 
 	self.impulse = 0;
 

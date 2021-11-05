@@ -30,6 +30,7 @@ float old_frags_left;
 
 .float hook;
 
-.float ID_inuse;	// Is ID Globe on?  1=Yes 0=No
-.float ID_time;		// Time until next ID unless re-aimed
-.entity ID_ent;		// Last entity ID'ed
+// player id
+.float player_id_inuse;		// is player id on?  1=yes 0=no
+.float player_id_time;		// time until next id unless re-aimed
+.entity player_id_ent;		// last entity ID'ed'
