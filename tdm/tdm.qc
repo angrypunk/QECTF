@@ -38,16 +38,8 @@ float(entity ent) tdm_isBot =
 
 float(float team) tdm_game_getTeamScore =
 {
-//	local entity p = world;
 	local float team_score = 0;
-//	while((p = findPlayerInTeam(team,p))) {
-//      	if (p.frags !=0)
-//            {
-//              	team_score = team_score + p.frags;
-//          	}
-//      }
 	return	team_score = team == TEAM_BLUE ? score_blue : score_red;
-//	return team_score;
 }
 
 void(entity player) tdm_player_autoAssignTeam =
