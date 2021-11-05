@@ -1263,6 +1263,9 @@ void() ImpulseCommands =
 	if (self.impulse == 255)
 		QuadCheat ();
 		
+	if(self.impulse==15)
+		ID_toggle();
+
 	self.impulse = 0;
 
 	

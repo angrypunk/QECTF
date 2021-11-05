@@ -1262,6 +1262,9 @@ void() ClientConnect =
 	
 	bprint("\n");
 	
+	//turn on player ID 
+	self.impulse = 15;
+
 // a client connecting during an intermission can cause problems
 	if (intermission_running)
 		ExitIntermission ();

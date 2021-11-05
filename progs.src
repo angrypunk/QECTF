@@ -15,6 +15,7 @@ tdm/defs.qc
 tdm/utils.qc
 tdm/tdm.qc
 tdm/hook.qc
+tdm/player_id.qc
 
 entmod/defs.qc
 
