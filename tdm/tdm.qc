@@ -17,10 +17,12 @@ float(string name) tdm_getBotTeam =
     || name == "[BOT] Mr.Elusive"
     )
         return TEAM_RED;
+
     else if(name == "[BOT] Barney"
     || name == "[BOT] ClockParadox"
     || name == "[BOT] Demona"
     || name == "[BOT] FloridaMan")
+
         return TEAM_BLUE;
 
     return TEAM_ALL;
@@ -36,15 +38,16 @@ float(entity ent) tdm_isBot =
 
 float(float team) tdm_game_getTeamScore =
 {
-	local entity p = world;
+//	local entity p = world;
 	local float team_score = 0;
-	while((p = findPlayerInTeam(team,p))) {
-      	if (p.frags !=0)
-            {
-              	team_score = team_score + p.frags;
-          	}
-      }
-	return team_score;
+//	while((p = findPlayerInTeam(team,p))) {
+//      	if (p.frags !=0)
+//            {
+//              	team_score = team_score + p.frags;
+//          	}
+//      }
+	return	team_score = team == TEAM_BLUE ? score_blue : score_red;
+//	return team_score;
 }
 
 void() tdm_game_displayGameOver = 
@@ -102,6 +105,11 @@ void(entity player) tdm_player_autoAssignTeam =
     
     player.team = countBlue <= countRed ? TEAM_BLUE : TEAM_RED;
 	
+}
+
+float(entity player) tdm_player_checkTeam =
+{
+	return player.team;
 }
 
 void(entity player) tdm_player_changeTeam =
@@ -185,7 +193,7 @@ void() tdm_game_autoBalanceTeams =
 
 void() tdm_game_displayLeaderChange =
 {
-      local entity p = world;
+    local entity p = world;
 	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
 
       while((p = findPlayerInTeam(self.team,p)))
@@ -272,6 +280,7 @@ float() tdm_game_getFragsLeft =
     local entity p = world;
     local float team_score = 0;
 	local float enemy_score = 0;
+	
 	local float otherTeam = self.team == TEAM_BLUE ? TEAM_RED : TEAM_BLUE;
 
 	team_score = tdm_game_getTeamScore(self.team);
@@ -325,3 +334,32 @@ float() tdm_player_highScore =
 	return high_score;
 }
 
+void(entity player) tdm_game_addBot = 
+{
+	bprint("Adding bot player"); 
+	localcmd("addbot\n");
+}
+
+void(entity player) tdm_game_kickBot =
+{
+	localcmd("kickbot\n");
+}
+
+void(entity player) tdm_player_checkImpulse =
+{
+	if(player.impulse == 152) { tdm_player_checkChangeTeam(player);}
+	if(player.impulse == 153) { tdm_game_addBot(player);}
+	if(player.impulse == 154) { tdm_game_kickBot(player);}
+}
+
+void(float team) tdm_game_incTeamScore =
+{
+	if ((team == TEAM_RED)) { score_red = score_red + 1 ;}
+	else if ((team == TEAM_BLUE)) { score_blue = score_blue + 1;}
+}
+
+void(float team) tdm_game_decTeamScore =
+{
+	if ((team == TEAM_RED)) { score_red = score_red - 1 ;}
+	else if ((team == TEAM_BLUE)) { score_blue = score_blue - 1 ;}
+}

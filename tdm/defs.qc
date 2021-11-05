@@ -11,6 +11,9 @@ float FFL_HIDDEN = 1 << 0;
 float FFL_BOT_HIDDEN = 1 << 1;
 float PEF_SEEN_MESSAGE = 1;
 
+float score_blue;
+float score_red;
+
 .float motdtime;
 .float motdtext;
 

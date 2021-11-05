@@ -982,7 +982,7 @@ void() PlayerPreThink =
 	makevectors (self.v_angle);		// is this still used
 
 	CheckRules ();
-	tdm_player_checkChangeTeam(self);
+	tdm_player_checkImpulse(self);
 	WaterMove ();
 
 	if (self.waterlevel == 2)
@@ -1382,6 +1382,9 @@ void(entity targ, entity attacker) ClientObituary =
 			else
 			{
 				attacker.frags = attacker.frags + 1;
+
+				// increment team frag count
+				tdm_game_incTeamScore(attacker.team);
 
 				rnum = attacker.weapon;
 				if (rnum == IT_AXE)
