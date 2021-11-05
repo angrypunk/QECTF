@@ -37,6 +37,3 @@ float old_frags_left;
 .float player_id_inuse;		// is player id on?  1=yes 0=no
 .float player_id_time;		// time until next id unless re-aimed
 .entity player_id_ent;		// last entity ID'ed'
-
-.float old_shit_color;
-.float old_pants_color;
