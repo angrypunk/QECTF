@@ -9,6 +9,11 @@ void StartItem();
 //const string SOUND_WIN = "boss2/pop2.wav";
 //const string SOUND_LOSE = "boss1/pain.wav";
 
+void(entity player) tdm_player_storeColors =
+{
+    old_pants_color = player.colo
+}
+
 float(string name) tdm_getBotTeam =
 {
     if(name == "[BOT] Azizam"
@@ -206,20 +211,20 @@ void(entity player) tdm_player_checkKillStreak =
 	local float kill_streak;
 	kill_streak = player.frags - player.prev_frags;
 
-    if (kill_streak == 5 && player.netname != last_spree){ 
+    if (kill_streak == 3 && player.netname != last_spree){ 
         last_spree = player.netname;
 		player.is_onSpree = 1;
 		while((p = findPlayer(p))) { centerprint2(p,player.netname," is on a killing spree!\n"); }  
     }	
-    else if (kill_streak == 10 && player.netname != last_spree) {	
+    else if (kill_streak == 6 && player.netname != last_spree) {	
         last_spree = player.netname;
         while((p = findPlayer(p))) { centerprint2(p,player.netname," is on a killing frenzy!\n"); } 
 	}	
-    else if (kill_streak == 15 && player.netname != last_spree) {
+    else if (kill_streak == 9 && player.netname != last_spree) {
 	  	last_spree = player.netname;
 	  	while((p = findPlayer(p))) { centerprint2(p,player.netname," is on a killing rampage!\n"); }
 	}
-    else if (kill_streak == 20 && player.netname != last_spree) {
+    else if (kill_streak == 12 && player.netname != last_spree) {
 	  	last_spree = player.netname;
 	  	while((p = findPlayer(p))) { centerprint2(p,player.netname," is unstoppable!\n"); }
 	}
