@@ -8,10 +8,6 @@ compiling math.qc
 compiling tdm/defs.qc
 compiling tdm/utils.qc
 compiling tdm/tdm.qc
-in function tdm_player_storeColors (line 13),
-tdm/tdm.qc:14: error: Unknown value "old_pants_color".
-tdm/tdm.qc:15: error: Unknown field "colo" in class "entity"
-tdm/tdm.qc:15: error: expected ;, found }
 compiling tdm/hook.qc
 compiling tdm/player_id.qc
 compiling entmod/defs.qc
@@ -22,27 +18,32 @@ compiling items.qc
 compiling weapons.qc
 compiling world.qc
 compiling client.qc
-in function execute_changelevel (line 257),
-client.qc:289: error: Unknown value "tdm_game_displayGameOver".
-in function respawn (line 358),
-client.qc:378: error: Unknown value "tdm_game_displayScore".
-in function CheckRules (line 696),
-client.qc:719: error: Unknown value "tdm_game_checkLeaderChange".
-client.qc:720: error: Unknown value "tdm_player_checkKillStreak".
-client.qc:723: error: Unknown value "tdm_player_highScore".
-client.qc:725: error: Unknown value "tdm_game_getFragsLeft".
-in function PlayerPreThink (line 953),
-client.qc:973: error: Unknown value "tdm_player_autoAssignTeam".
-client.qc:985: error: Unknown value "tdm_player_checkImpulse".
-in function ClientConnect (line 1245),
-client.qc:1246: error: Unknown value "tdm_player_autoAssignTeam".
-client.qc:1248: error: Unknown value "tdm_isBot".
-client.qc:1248: warning: conditional type mismatch: variant
-in function ClientObituary (line 1312),
-client.qc:1314: error: Unknown value "tdm_player_endsKillingSpree".
-client.qc:1387: error: Unknown value "tdm_game_incTeamScore".
-
-************ ERROR ************
-Errors have occured
-
-Error in tdm/tdm.qc on line 15
+compiling player.qc
+compiling monsters.qc
+compiling doors.qc
+compiling buttons.qc
+compiling triggers.qc
+compiling plats.qc
+compiling misc.qc
+compiling maputils.qc
+compiling maps.qc
+compiling ogre.qc
+compiling demon.qc
+compiling shambler.qc
+compiling knight.qc
+compiling soldier.qc
+compiling wizard.qc
+compiling dog.qc
+compiling zombie.qc
+compiling boss.qc
+compiling tarbaby.qc
+compiling hknight.qc
+compiling fish.qc
+compiling shalrath.qc
+compiling enforcer.qc
+compiling oldone.qc
+compiling entmod/entmod.qc
+compiling entmod/commands.qc
+compiling motd.qc
+Compile finished: ../progs.dat (id format)
+Done. 0 warnings

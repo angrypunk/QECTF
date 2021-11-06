@@ -129,7 +129,7 @@ void(entity player) tdm_player_checkChangeTeam =
 
 void() tdm_game_autoBalanceTeams =
 {
-      local float countBlue = 0;
+    local float countBlue = 0;
 	local float countRed = 0;
 	local entity p = world;
 	while((p = findPlayer(p)))
@@ -332,7 +332,7 @@ void() tdm_game_displayGameOver =
 	{
 	      while((p = findPlayer(p)))
 	      {
-	        centerprint7(p,"BLUE team won the match with ", ftos(blue_score)," frags.\n\nBLUE Team MVP: ", blue_mvp.netname , "\n\nRED Team MVP: ," , red_mvp.netname , "\n");
+	        centerprint7(p,"BLUE team won the match with ", ftos(blue_score)," frags.\n\nBLUE Team MVP: ", blue_mvp.netname , "\n\nRED Team MVP: " , red_mvp.netname , "\n");
 	      }
 	}
 
@@ -340,7 +340,7 @@ void() tdm_game_displayGameOver =
 	{
 	      while((p = findPlayer(p)))
 	      {
-	        centerprint7(p,"RED team won the match with ", ftos(red_score)," frags.\n\nRED Team MVP: ", red_mvp.netname , "\n\nBLUE Team MVP: ," , blue_mvp.netname , "\n");  
+	        centerprint7(p,"RED team won the match with ", ftos(red_score)," frags.\n\nRED Team MVP: ", red_mvp.netname , "\n\nBLUE Team MVP: " , blue_mvp.netname , "\n");  
 	      }
 	}
 
@@ -348,7 +348,7 @@ void() tdm_game_displayGameOver =
 	{
 	      while((p = findPlayer(p)))
 	      {
-	        centerprint7(p,"BLUE and RED teams tied the match with ", ftos(blue_score), " frags.\n\nBLUE Team MVP: ", blue_mvp.netname , "\n\nRED Team MVP: ," , red_mvp.netname , "\n");
+	        centerprint7(p,"BLUE and RED teams tied the match with ", ftos(blue_score), " frags.\n\nBLUE Team MVP: ", blue_mvp.netname , "\n\nRED Team MVP: " , red_mvp.netname , "\n");
 	      }
-	}	
+	}
 }
